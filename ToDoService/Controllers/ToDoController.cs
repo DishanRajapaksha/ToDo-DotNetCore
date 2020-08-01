@@ -93,6 +93,16 @@ namespace ToDoService.Controllers
 
             return toDo;
         }
+        
+        [HttpDelete("irreversible")]
+        public async Task<ActionResult<ToDo>> DeleteAll()
+        {
+
+            await _context.Database.ExecuteSqlRawAsync("DELETE FROM ToDo");
+            await _context.Database.ExecuteSqlRawAsync("DELETE FROM SQLITE_SEQUENCE WHERE name='ToDo'");
+            
+            return NoContent();
+        }
 
         private bool ToDoExists(int id)
         {
